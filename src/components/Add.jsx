@@ -1,15 +1,14 @@
 import { useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
 
-const Signup = () => {
+
+const Add = () => {
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [userName, setUserName] = useState("");
   const [roles, setRoles] = useState([]);
-  const navigate = useNavigate();
   const handleRoleChange = (e) => {
 
     const { value, checked } = e.target;
@@ -27,7 +26,6 @@ const Signup = () => {
 
 
   async function addNewEmployee(e) {
-
     e.preventDefault();
 
     const req = await axios.post("http://localhost:8080/api/auth", {
@@ -41,6 +39,7 @@ const Signup = () => {
     });
 
     console.log(req.data);
+
     if (req.data) {
 
       alert(req.data);
@@ -49,97 +48,94 @@ const Signup = () => {
 
       alert("Failed");
 
-
     }
+
 
   }
 
 
+  const formContainer = {
 
-  const containerStyle = {
-
-    maxWidth: "450px",
-    margin: "50px auto",
+    maxWidth: "500px",
+    margin: "40px auto",
     padding: "30px",
+    borderRadius: "15px",
     backgroundColor: "#f9f9f9",
-    borderRadius: "10px",
-    boxShadow: "0 0 12px rgba(0, 0, 0, 0.1)",
+    boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)",
     fontFamily: "Arial, sans-serif",
 
+
   };
+
 
   const headingStyle = {
 
     textAlign: "center",
+    marginBottom: "20px",
     color: "#333",
-    marginBottom: "25px",
+
 
   };
-
 
   const labelStyle = {
 
     display: "block",
-    marginBottom: "6px",
+    marginBottom: "5px",
     fontWeight: "bold",
-    color: "#555",
-
+    color: "#444",
   };
+
 
   const inputStyle = {
 
     width: "100%",
     padding: "10px",
-    marginBottom: "15px",
-    borderRadius: "5px",
+    marginBottom: "20px",
     border: "1px solid #ccc",
+    borderRadius: "5px",
     fontSize: "14px",
+
   };
 
 
-  const checkboxLabelStyle = {
+  const checkboxGroup = {
+    marginBottom: "20px",
+
+
+  };
+
+
+  const checkboxLabel = {
 
     display: "block",
     marginBottom: "10px",
+    fontWeight: "500",
     fontSize: "14px",
-    color: "#444",
 
   };
+
 
   const buttonStyle = {
 
     width: "100%",
     padding: "12px",
-    backgroundColor: "#28a745",
-    color: "#fff",
+    backgroundColor: "#0066cc",
+    color: "white",
     border: "none",
     borderRadius: "5px",
+    fontWeight: "bold",
     fontSize: "16px",
     cursor: "pointer",
 
-    marginTop: "10px",
-  };
-
-  const loginLinkStyle = {
-
-    textAlign: "center",
-    marginTop: "20px",
-    color: "#007bff",
-    cursor: "pointer",
-    fontSize: "14px",
-    textDecoration: "underline",
 
   };
-
 
   return (
 
-    <section style={containerStyle}>
-
-      <h2 style={headingStyle}>Sign Up</h2>
+    <section style={formContainer}>
+      <h2 style={headingStyle}>Add Employee</h2>
       <form onSubmit={addNewEmployee}>
-
-        <label htmlFor="name" style={labelStyle}>Employee Name:</label>
+        <label style={labelStyle} htmlFor="name">Employee Name:</label>
 
 
         <input
@@ -149,42 +145,31 @@ const Signup = () => {
           value={name}
           onChange={(e) => setName(e.target.value)}
           style={inputStyle}
-
-
         />
 
-        <label htmlFor="email" style={labelStyle}>Employee Email:</label>
+        <label style={labelStyle} htmlFor="email">Employee Email:</label>
 
 
         <input
-
           type="email"
           id="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           style={inputStyle}
-
         />
 
-        <label htmlFor="password" style={labelStyle}>Employee Password:</label>
-
+        <label style={labelStyle} htmlFor="password">Employee Password:</label>
 
         <input
-
           type="password"
           id="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           style={inputStyle}
-
-
         />
-
-        <label htmlFor="userName" style={labelStyle}>Employee Username:</label>
-
+        <label style={labelStyle} htmlFor="userName">Employee Username:</label>
 
         <input
-
           type="text"
           id="userName"
           value={userName}
@@ -192,46 +177,37 @@ const Signup = () => {
           style={inputStyle}
         />
 
-        <label style={labelStyle}>Employee Roles:</label>
+        <div style={checkboxGroup}>
+          <span style={labelStyle}>Employee Roles:</span>
+          <label style={checkboxLabel}>
+            <input
+              type="checkbox"
+              value="ROLE_ADMIN"
+              checked={roles.includes("ROLE_ADMIN")}
 
+              onChange={handleRoleChange}
 
-        <label style={checkboxLabelStyle}>
+            />{" "}
 
-          <input
+            Admin
+          </label>
 
-            type="checkbox"
-            value="ROLE_ADMIN"
-            checked={roles.includes("ROLE_ADMIN")}
-            onChange={handleRoleChange}
-          /> Admin
-        </label>
-
-        <label style={checkboxLabelStyle}>
-          <input
-
-            type="checkbox"
-            value="ROLE_USER"
-            checked={roles.includes("ROLE_USER")}
-            onChange={handleRoleChange}
-
-          /> User
-
-        </label>
+          <label style={checkboxLabel}>
+            <input
+              type="checkbox"
+              value="ROLE_USER"
+              checked={roles.includes("ROLE_USER")}
+              onChange={handleRoleChange}
+            />{" "}
+            User
+          </label>
+        </div>
 
         <button type="submit" style={buttonStyle}>Submit</button>
-
       </form>
-      <div style={loginLinkStyle} >
-
-        Already registered?Login
-
-      </div>
-
     </section>
-
   );
 
 };
 
-
-export default Signup;
+export default Add;

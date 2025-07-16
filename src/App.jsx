@@ -1,18 +1,44 @@
-// import { useState } from 'react'
-// import reactLogo from './assets/react.svg'
-// import viteLogo from '/vite.svg'
-import Login from './components/login'
-import SignUp from './components/signup.jsx'
+import { useEffect, useState } from 'react';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Navbar from './components/Navbar';
+import Footer from './components/Footer';
+import Login from './components/Login';
+import Signup from './components/signup';
+import Add from './components/Add';
+import Employee from './components/Employee';
+
 
 function App() {
-  return(
-    <div>
-      <SignUp />
-      <Login />
-    </div> 
 
-  )
-  
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+
+    const token = localStorage.getItem("token");
+    setIsLoggedIn(!!token);
+  }, []);
+
+
+  return (
+
+    <>
+
+      <BrowserRouter>
+
+        <Navbar isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
+
+        <Routes>
+
+          <Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn} />} />
+          <Route path="/register" element={<Signup />} />
+          <Route path="/Add" element={<Add />} />
+          <Route path="/Employee" element={<Employee />} />
+
+        </Routes>
+        <Footer />
+      </BrowserRouter>
+    </>
+  );
 }
 
-export default App
+export default App;
